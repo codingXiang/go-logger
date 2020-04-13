@@ -3,7 +3,7 @@
 ## 如何使用
 ### 導入
 ```
- go get -u --insecure 10.40.42.38/BP05G0/go-logger
+ go get -u --insecure github.com/codingXiang/go-logger
 ```
 ### 使用
 創建實例

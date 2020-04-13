@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # ---> Go
+=======
+>>>>>>> 18981ce32ea1f3577b856f9f7723495037074927
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -14,4 +17,7 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 18981ce32ea1f3577b856f9f7723495037074927
