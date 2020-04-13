@@ -43,7 +43,7 @@ type (
 )
 
 var (
-	Log LoggerInterface
+	Log *Logger
 )
 
 func (level LogLevel) String() string {
