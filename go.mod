@@ -1,4 +1,4 @@
-module logger
+module 10.40.42.38/BP05G0/go-logger
 
 go 1.13
 
