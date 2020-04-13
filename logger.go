@@ -13,6 +13,10 @@ type (
 		GetLogger() *logrus.Logger
 		//設定 log 等級
 		SetLevel(level string)
+		//取得 log 等級
+		GetLevel() string
+		//取得 log 輸出格式
+		GetFormatter() string
 		//設定 log 輸出格式
 		SetFormatter(format string)
 		// 輸出 debug 等級 log
@@ -32,10 +36,7 @@ type (
 	LogLevel string
 	// log 物件
 	Logger struct {
-		log *logrus.Logger
-	}
-
-	LogSetting struct {
+		log    *logrus.Logger
 		Level  string `yaml:"level"`  //等級（有 debug、info、error、fatal 與 panic）
 		Format string `yaml:"format"` //格式（有 json 或 text）
 	}
@@ -68,7 +69,7 @@ func (level LogLevel) GetLevel() logrus.Level {
 	}
 }
 
-func NewLogger(setting LogSetting) LoggerInterface {
+func NewLogger(setting Logger) LoggerInterface {
 	var l = &Logger{
 		log: logrus.New(),
 	}
@@ -89,6 +90,14 @@ func (l *Logger) GetLogger() *logrus.Logger {
 func (l *Logger) SetLevel(level string) {
 	var logLevel = LogLevel(level)
 	l.log.SetLevel(logLevel.GetLevel())
+}
+
+func (l *Logger) GetLevel() string {
+	return l.Level
+}
+
+func (l *Logger) GetFormatter() string {
+	return l.Format
 }
 
 func (l *Logger) SetFormatter(format string) {
