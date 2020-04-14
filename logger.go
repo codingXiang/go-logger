@@ -70,7 +70,7 @@ func (level LogLevel) GetLevel() logrus.Level {
 	}
 }
 
-func InterfaceToLogger(data map[string]interface{}) Logger {
+func InterfaceToLogger(data interface{}) Logger {
 	var result = Logger{}
 	if jsonStr, err := json.Marshal(data); err == nil {
 		json.Unmarshal(jsonStr, &result)
