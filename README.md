@@ -14,5 +14,5 @@ logger.Log = logger.NewLogger(logger.Logger{
 	Format: "json",
 })
 //Debug
-logger.Log.Deub("test")
+logger.Log.Debug("test")
 ```
