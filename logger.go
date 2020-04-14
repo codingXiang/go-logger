@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
@@ -68,6 +69,15 @@ func (level LogLevel) GetLevel() logrus.Level {
 		return logrus.DebugLevel
 	}
 }
+
+func InterfaceToLogger(data map[string]interface{}) Logger {
+	var result = Logger{}
+	if jsonStr, err := json.Marshal(data); err == nil {
+		json.Unmarshal(jsonStr, &result)
+	}
+	return result
+}
+
 
 func NewLogger(setting Logger) LoggerInterface {
 	var l = &Logger{
