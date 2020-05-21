@@ -104,19 +104,20 @@ func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
 		level  = config.GetString("log.level")
 		format = config.GetString("log.format")
 		path   = config.GetString("log.path")
+		maxAge = config.GetInt("log.maxAge")
 	)
 
 	l.log.SetFormatter(&logrus.TextFormatter{})
 	l.SetLevel(level)
 	l.SetFormatter(format)
-	l.SetOutput(level, path)
+	l.SetOutput(level, path, maxAge)
 	l.Info("log level =", level)
 	l.Info("log format =", format)
 	l.Info("log path =", path)
 	return l
 }
 
-func (l *Logger) SetOutput(level string, path string) {
+func (l *Logger) SetOutput(level string, path string, maxAge int) {
 	if err := os.MkdirAll(path, 0777); err != nil {
 		log.Fatalf("create log folder error: %v", err)
 	}
@@ -126,7 +127,7 @@ func (l *Logger) SetOutput(level string, path string) {
 		Filename:   filename,
 		MaxSize:    50, // megabytes
 		MaxBackups: 3,
-		MaxAge:     28, //days
+		MaxAge:     maxAge, //days
 		Level:      LogLevel(level).GetLevel(),
 		Formatter: &logrus.JSONFormatter{
 			TimestampFormat: time.RFC822,
