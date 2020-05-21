@@ -125,7 +125,6 @@ func (l *Logger) SetOutput(path string) {
 	if err != nil {
 		l.GetLogger().Fatal(err)
 	}
-	defer file.Close()
 	l.GetLogger().SetOutput(file)
 }
 
