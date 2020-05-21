@@ -8,7 +8,9 @@ require (
 	github.com/mitchellh/mapstructure v1.3.0 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/sirupsen/logrus v1.5.0
+	github.com/snowzach/rotatefilehook v0.0.0-20180327172521-2f64f265f58c // indirect
 	github.com/spf13/viper v1.7.0 // indirect
 	golang.org/x/sys v0.0.0-20200519105757-fe76b779f299 // indirect
 	gopkg.in/ini.v1 v1.56.0 // indirect
+	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )

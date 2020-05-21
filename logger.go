@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/snowzach/rotatefilehook"
 	"github.com/spf13/viper"
 	"log"
 	"os"
@@ -106,26 +107,41 @@ func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
 	)
 
 	l.log.SetFormatter(&logrus.TextFormatter{})
-	l.log.SetOutput(os.Stdout)
 	l.SetLevel(level)
 	l.SetFormatter(format)
-	l.SetOutput(path)
+	l.SetOutput(level, path)
 	l.Info("log level =", level)
 	l.Info("log format =", format)
 	l.Info("log path =", path)
 	return l
 }
 
-func (l *Logger) SetOutput(path string) {
+func (l *Logger) SetOutput(level string, path string) {
 	if err := os.MkdirAll(path, 0777); err != nil {
 		log.Fatalf("create log folder error: %v", err)
 	}
-	filename := path + "/" + time.Now().Format("2006-01-02") + ".log"
-	f, err := os.OpenFile(filename, os.O_WRONLY | os.O_CREATE, 0755)
+	filename := path + "/" + "output.log"
+
+	rotateFileHook, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
+		Filename:   filename,
+		MaxSize:    50, // megabytes
+		MaxBackups: 3,
+		MaxAge:     28, //days
+		Level:      LogLevel(level).GetLevel(),
+		Formatter: &logrus.JSONFormatter{
+			TimestampFormat: time.RFC822,
+		},
+	})
 	if err != nil {
 		log.Fatalf("open log file error: %v", err)
 	}
-	logrus.SetOutput(f)
+	logrus.SetOutput(os.Stdout)
+	logrus.SetFormatter(&logrus.TextFormatter{
+		ForceColors:     true,
+		FullTimestamp:   true,
+		TimestampFormat: time.RFC822,
+	})
+	logrus.AddHook(rotateFileHook)
 }
 
 func (l *Logger) GetLogger() *logrus.Logger {
