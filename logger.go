@@ -124,6 +124,7 @@ func (l *Logger) SetOutput(path string) {
 	if err != nil {
 		log.Fatalf("open log file error: %v", err)
 	}
+	defer f.Close()
 	mw := io.MultiWriter(os.Stdout, f)
 	logrus.SetOutput(mw)
 }
