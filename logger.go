@@ -125,7 +125,7 @@ func (l *Logger) SetOutput(path string) {
 	if err != nil {
 		l.GetLogger().Fatal(err)
 	}
-	l.GetLogger().SetOutput(file)
+	log.SetOutput(file)
 }
 
 func (l *Logger) GetLogger() *logrus.Logger {
