@@ -121,11 +121,11 @@ func (l *Logger) SetOutput(path string) {
 		log.Fatalf("create log folder error: %v", err)
 	}
 	filename := path + "/" + time.Now().Format("2006-01-02") + ".log"
-	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0755)
+	f, err := os.OpenFile(filename, os.O_WRONLY | os.O_CREATE, 0755)
 	if err != nil {
-		l.GetLogger().Fatal(err)
+		log.Fatalf("open log file error: %v", err)
 	}
-	log.SetOutput(file)
+	logrus.SetOutput(f)
 }
 
 func (l *Logger) GetLogger() *logrus.Logger {
