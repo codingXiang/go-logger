@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"log"
 	"os"
 	"time"
 )
@@ -108,6 +109,7 @@ func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
 	l.log.SetOutput(os.Stdout)
 	l.SetLevel(level)
 	l.SetFormatter(format)
+	l.SetOutput(path)
 	l.Info("log level =", level)
 	l.Info("log format =", format)
 	l.Info("log path =", path)
@@ -115,6 +117,9 @@ func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
 }
 
 func (l *Logger) SetOutput(path string) {
+	if err := os.MkdirAll(path, 0777); err != nil {
+		log.Fatalf("create log folder error: %v", err)
+	}
 	filename := path + "/" + time.Now().Format("2006-01-02") + ".log"
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0755)
 	if err != nil {
