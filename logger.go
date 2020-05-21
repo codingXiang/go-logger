@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
 	"os"
+	"time"
 )
 
 type (
@@ -78,7 +80,6 @@ func InterfaceToLogger(data interface{}) Logger {
 	return result
 }
 
-
 func NewLogger(setting Logger) LoggerInterface {
 	var l = &Logger{
 		log: logrus.New(),
@@ -91,6 +92,36 @@ func NewLogger(setting Logger) LoggerInterface {
 	l.Info(fmt.Sprintf("log level = %s", setting.Level))
 	l.Info(fmt.Sprintf("log format = %s", setting.Format))
 	return l
+}
+
+func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
+	var (
+		l = &Logger{
+			log: logrus.New(),
+		}
+		level  = config.GetString("log.level")
+		format = config.GetString("log.format")
+		path   = config.GetString("log.path")
+	)
+
+	l.log.SetFormatter(&logrus.TextFormatter{})
+	l.log.SetOutput(os.Stdout)
+	l.SetLevel(level)
+	l.SetFormatter(format)
+	l.Info("log level =", level)
+	l.Info("log format =", format)
+	l.Info("log path =", path)
+	return l
+}
+
+func (l *Logger) SetOutput(path string) {
+	filename := path + "/" + time.Now().Format("2006-01-02") + ".log"
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0755)
+	if err != nil {
+		l.GetLogger().Fatal(err)
+	}
+	defer file.Close()
+	l.GetLogger().SetOutput(file)
 }
 
 func (l *Logger) GetLogger() *logrus.Logger {
@@ -114,13 +145,13 @@ func (l *Logger) SetFormatter(format string) {
 	switch format {
 	case "json":
 		l.log.SetFormatter(&logrus.JSONFormatter{})
-		break;
+		break
 	case "text":
 		l.log.SetFormatter(&logrus.TextFormatter{})
-		break;
+		break
 	default:
 		l.log.SetFormatter(&logrus.TextFormatter{})
-		break;
+		break
 	}
 }
 
