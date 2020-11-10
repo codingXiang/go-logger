@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/sirupsen/logrus"
+	"github.com/snowzach/rotatefilehook"
 	"github.com/spf13/viper"
-	"io"
 	"log"
 	"os"
+	"runtime"
 )
 
 type (
@@ -19,6 +20,8 @@ type (
 		SetLevel(level string)
 		//取得 log 等級
 		GetLevel() string
+		//設定 output
+		SetOutput(config *viper.Viper)
 		//取得 log 輸出格式
 		GetFormatter() string
 		//設定 log 輸出格式
@@ -102,30 +105,42 @@ func NewLoggerWithConfiger(config *viper.Viper) LoggerInterface {
 		}
 		level  = config.GetString("log.level")
 		format = config.GetString("log.format")
-		path   = config.GetString("log.path")
 	)
 
 	l.log.SetFormatter(&logrus.TextFormatter{})
 	l.SetLevel(level)
 	l.SetFormatter(format)
-	l.SetOutput(path)
-	l.Info("log level =", level)
-	l.Info("log format =", format)
-	l.Info("log path =", path)
+	l.SetOutput(config)
+	l.Debug("log level =", level)
+	l.Debug("log format =", format)
 	return l
 }
 
-func (l *Logger) SetOutput(path string) {
-	if err := os.MkdirAll(path, 0755); err != nil {
+func (l *Logger) SetOutput(config *viper.Viper) {
+	var (
+		path   = config.GetString("log.path")
+		name   = config.GetString("log.filename")
+		maxAge = config.GetInt("log.maxAge")
+		level  = config.GetString("log.level")
+	)
+	if err := os.MkdirAll(path, 0777); err != nil {
 		log.Fatalf("create log folder error: %v", err)
 	}
-	filename := path + "/" + "output.log"
-	f, err := os.OpenFile(filename, os.O_WRONLY | os.O_CREATE, 0755)
+	filename := path + GetPathSymbol() + name
+
+	rotateFileHook, err := rotatefilehook.NewRotateFileHook(rotatefilehook.RotateFileConfig{
+		Filename:   filename,
+		MaxSize:    50, // megabytes
+		MaxBackups: 3,
+		MaxAge:     maxAge, //days
+		Level:      LogLevel(level).GetLevel(),
+		Formatter:  l.log.Formatter,
+	})
 	if err != nil {
 		log.Fatalf("open log file error: %v", err)
 	}
-	mw := io.MultiWriter(os.Stdout, f)
-	logrus.SetOutput(mw)
+	l.log.SetOutput(os.Stdout)
+	l.log.AddHook(rotateFileHook)
 }
 
 func (l *Logger) GetLogger() *logrus.Logger {
@@ -181,4 +196,13 @@ func (l *Logger) Fatal(args ...interface{}) {
 
 func (l *Logger) Panic(args ...interface{}) {
 	l.log.Panic(args)
+}
+
+func GetPathSymbol() string {
+	switch runtime.GOOS {
+	case "windows":
+		return "\\"
+	default:
+		return "/"
+	}
 }

@@ -1,4 +1,4 @@
-module github.com/codingXiang/go-logger
+module github.com/codingXiang/go-logger/v2
 
 go 1.13
 
