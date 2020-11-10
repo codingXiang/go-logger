@@ -6,7 +6,7 @@ type Format int
 
 const (
 	Text Format = iota
-	Json Format
+	Json
 )
 
 func NewFormat(f string) Format {
