@@ -1,8 +1,8 @@
 package logger
 
 import (
-	"bytes"
 	"fmt"
+	"github.com/codingXiang/configer/v2"
 	"github.com/sirupsen/logrus"
 	"github.com/snowzach/rotatefilehook"
 	"github.com/spf13/viper"
@@ -35,14 +35,17 @@ func New(config *viper.Viper) *Logger {
 	l.Logger = newLogger(config)
 	l.Output(config)
 	l.Info(fmt.Sprintf("log level = %s", l.GetLevel().String()))
-	l.Info(fmt.Sprintf("log format = %s", l.Formatter))
 	return l
 }
 
 func Default() *Logger {
-	config := viper.New()
-	config.ReadConfig(bytes.NewBuffer(defaultConfig))
-	return New(config)
+	c := configer.NewCoreWithData(defaultConfig)
+	c.SetConfigType(configer.YAML.String())
+	if config, err := c.ReadConfig();err == nil {
+		return New(config)
+	} else {
+		panic(err)
+	}
 }
 
 func newLogger(config *viper.Viper) *logrus.Logger {
