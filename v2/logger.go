@@ -21,6 +21,12 @@ const (
 	PATH     = "path"
 )
 
+var Log *Logger
+
+func init() {
+	Log = Default()
+}
+
 type Logger struct {
 	config *viper.Viper
 	*logrus.Logger
@@ -41,7 +47,7 @@ func New(config *viper.Viper) *Logger {
 func Default() *Logger {
 	c := configer.NewCoreWithData(defaultConfig)
 	c.SetConfigType(configer.YAML.String())
-	if config, err := c.ReadConfig();err == nil {
+	if config, err := c.ReadConfig(); err == nil {
 		return New(config)
 	} else {
 		panic(err)
