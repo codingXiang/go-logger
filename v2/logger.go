@@ -45,8 +45,7 @@ func New(config *viper.Viper) *Logger {
 }
 
 func Default() *Logger {
-	c := configer.NewCoreWithData(defaultConfig)
-	c.SetConfigType(configer.YAML.String())
+	c := configer.NewCoreWithData(configer.YAML, defaultConfig)
 	if config, err := c.ReadConfig(); err == nil {
 		return New(config)
 	} else {
