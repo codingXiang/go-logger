@@ -31,6 +31,8 @@ github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f h1:+nWqVOa
 github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/codingXiang/configer/v2 v2.0.2 h1:4miCcw99TsJ0n7uYc3xdfUwZ9Mqrcqd/3+uvH9ulC38=
 github.com/codingXiang/configer/v2 v2.0.2/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
+github.com/codingXiang/configer/v2 v2.0.3 h1:LYKJOb36IxQRstbzQ9ppn/pQPfeOVlhwXG1fbKu7Qsk=
+github.com/codingXiang/configer/v2 v2.0.3/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/etcd v3.3.13+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
