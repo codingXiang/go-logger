@@ -29,6 +29,8 @@ github.com/cespare/xxhash v1.1.0/go.mod h1:XrSqR1VqqWfGrhpAt58auRo0WTKS1nRRg3ghf
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f h1:+nWqVOanBUrwc8WilP4Jz/NZZ9isWzyHqHBRnrr0Oas=
 github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
+github.com/codingXiang/configer/v2 v2.0.2 h1:4miCcw99TsJ0n7uYc3xdfUwZ9Mqrcqd/3+uvH9ulC38=
+github.com/codingXiang/configer/v2 v2.0.2/go.mod h1:DeZph2rxwENwvs3C+BVw644W3uQt+zTwppg0SNzzCO0=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/etcd v3.3.13+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=

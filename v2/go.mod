@@ -3,7 +3,7 @@ module github.com/codingXiang/go-logger/v2
 go 1.13
 
 require (
-	github.com/codingXiang/configer/v2 v2.0.0-20201109090430-f809086ede4f
+	github.com/codingXiang/configer/v2 v2.0.2
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/mitchellh/mapstructure v1.3.0 // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
